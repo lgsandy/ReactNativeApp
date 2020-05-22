@@ -31,7 +31,7 @@ const MainTabScreen = () => {
         }}
       />
       <Tab.Screen
-        name="Notifications"
+        name="Details"
         component={DetailStackScreen}
         options={{
           tabBarLabel: 'Notifications',
@@ -106,7 +106,7 @@ const DetailStackScreen = ({navigation}) => {
         headerTintColor: '#fff',
       }}>
       <DetailStack.Screen
-        name="DetailsScreen"
+        name="Details"
         component={DetailsScreen}
         options={{
           headerLeft: () => (

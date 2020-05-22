@@ -8,7 +8,7 @@ const HomeScreen = ({navigation}) => {
       <Button
         title="Go to Details Screen"
         onPress={() => {
-          navigation.navigate('DetailsScreen');
+          navigation.navigate('Details');
         }}></Button>
     </View>
   );

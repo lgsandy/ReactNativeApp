@@ -78,7 +78,6 @@ const App = () => {
     <NavigationContainer>
       <Drawer.Navigator initialRouteName="Home">
         <Drawer.Screen name="Home" component={MainTabScreen} />
-        {/* <Drawer.Screen name="DetailsScreen" component={DetailStackScreen} /> */}
       </Drawer.Navigator>
     </NavigationContainer>
   );
