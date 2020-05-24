@@ -17,6 +17,10 @@ import {
 import {color} from 'react-native-reanimated';
 
 export function DrawerContent(props) {
+  const [isDarkTheme, setIsDarkTheme] = React.useState(false);
+  const toggleTheme = () => {
+    setIsDarkTheme(!isDarkTheme);
+  };
   return (
     <View style={{flex: 1}}>
       <DrawerContentScrollView {...props}>
@@ -96,6 +100,19 @@ export function DrawerContent(props) {
                 props.navigation.navigate('SupportScreen');
               }}
             />
+          </Drawer.Section>
+          <Drawer.Section title="Preferences">
+            <TouchableRipple
+              onPress={() => {
+                toggleTheme();
+              }}>
+              <View style={styles.preference}>
+                <Text>Dark Theme</Text>
+                <View pointerEvents="none">
+                  <Switch value={isDarkTheme} />
+                </View>
+              </View>
+            </TouchableRipple>
           </Drawer.Section>
         </View>
       </DrawerContentScrollView>
