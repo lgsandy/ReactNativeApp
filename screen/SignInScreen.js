@@ -15,6 +15,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 //import animatable
 import * as Animatable from 'react-native-animatable';
+import {AuthContext} from '../component/context';
 
 const SignInScreen = ({navigation}) => {
   const [data, setData] = React.useState({
@@ -23,6 +24,7 @@ const SignInScreen = ({navigation}) => {
     check_text_input_change: false,
     secureTextEntry: true,
   });
+  const {signIn} = React.useContext(AuthContext);
   const textInputChange = (val) => {
     if (val.length != 0) {
       setData({
@@ -94,9 +96,13 @@ const SignInScreen = ({navigation}) => {
           </TouchableOpacity>
         </View>
         <View style={styles.button}>
-          <LinearGradient colors={['#08d4c4', '#01ab9d']} style={styles.signIn}>
-            <Text style={[styles.textSign, {color: '#fff'}]}>Sign In</Text>
-          </LinearGradient>
+          <TouchableOpacity style={styles.signIn} onPress={() => signIn()}>
+            <LinearGradient
+              colors={['#08d4c4', '#01ab9d']}
+              style={styles.signIn}>
+              <Text style={[styles.textSign, {color: '#fff'}]}>Sign In</Text>
+            </LinearGradient>
+          </TouchableOpacity>
           <TouchableOpacity
             style={[
               styles.signIn,

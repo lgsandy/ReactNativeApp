@@ -15,8 +15,10 @@ import {
   Switch,
 } from 'react-native-paper';
 import {color} from 'react-native-reanimated';
+import {AuthContext} from '../component/context';
 
 export function DrawerContent(props) {
+  const {signOut} = React.useContext(AuthContext);
   const [isDarkTheme, setIsDarkTheme] = React.useState(false);
   const toggleTheme = () => {
     setIsDarkTheme(!isDarkTheme);
