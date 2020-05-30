@@ -23,6 +23,8 @@ const SignInScreen = ({navigation}) => {
     password: '',
     check_text_input_change: false,
     secureTextEntry: true,
+    isValidUser: true,
+    isValidPassword: true,
   });
   const {signIn} = React.useContext(AuthContext);
   const textInputChange = (val) => {
@@ -54,6 +56,11 @@ const SignInScreen = ({navigation}) => {
       secureTextEntry: !data.secureTextEntry,
     });
   };
+  //sign handler function
+  const loginHandel = (userName, password) => {
+    // console.log('user::' + userName + ' iuui:' + password);
+    signIn(userName, password);
+  };
 
   return (
     <View style={styles.container}>
@@ -77,6 +84,14 @@ const SignInScreen = ({navigation}) => {
             </Animatable.View>
           ) : null}
         </View>
+        {data.isValidUser ? null : (
+          <Animatable.View animation="fadeInLeft" duration={500}>
+            <Text style={styles.errorMsg}>
+              UserName Must be 4 Character long
+            </Text>
+          </Animatable.View>
+        )}
+
         <Text style={[styles.text_footer, {marginTop: 35}]}>Password</Text>
         <View style={styles.action}>
           <FontAwesome name="lock" color="#05375a" size={20} />
@@ -95,8 +110,18 @@ const SignInScreen = ({navigation}) => {
             )}
           </TouchableOpacity>
         </View>
+        {data.isValidPassword ? null : (
+          <Animatable.View animation="fadeInLeft" duration={500}>
+            <Text style={styles.errorMsg}>
+              Password Must be 4 Character long
+            </Text>
+          </Animatable.View>
+        )}
+
         <View style={styles.button}>
-          <TouchableOpacity style={styles.signIn} onPress={() => signIn()}>
+          <TouchableOpacity
+            style={styles.signIn}
+            onPress={() => loginHandel(data.email, data.password)}>
             <LinearGradient
               colors={['#08d4c4', '#01ab9d']}
               style={styles.signIn}>
