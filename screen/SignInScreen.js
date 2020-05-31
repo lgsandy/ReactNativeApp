@@ -8,6 +8,7 @@ import {
   Platform,
   TextInput,
   StatusBar,
+  Alert,
 } from 'react-native';
 //import for gradient color
 import LinearGradient from 'react-native-linear-gradient';
@@ -16,6 +17,7 @@ import Feather from 'react-native-vector-icons/Feather';
 //import animatable
 import * as Animatable from 'react-native-animatable';
 import {AuthContext} from '../component/context';
+import User from '../model/user';
 
 const SignInScreen = ({navigation}) => {
   const [data, setData] = React.useState({
@@ -28,25 +30,34 @@ const SignInScreen = ({navigation}) => {
   });
   const {signIn} = React.useContext(AuthContext);
   const textInputChange = (val) => {
-    if (val.length != 0) {
+    if (val.trim().length >= 4) {
       setData({
         ...data,
         email: val,
         check_text_input_change: true,
+        isValidUser: true,
       });
     } else {
       setData({
         ...data,
         email: val,
         check_text_input_change: false,
+        isValidUser: false,
       });
     }
   };
   const handelPasswordChange = (val) => {
-    if (val.length != 0) {
+    if (val.trim().length >= 8) {
       setData({
         ...data,
         password: val,
+        isValidPassword: true,
+      });
+    } else {
+      setData({
+        ...data,
+        password: val,
+        isValidPassword: false,
       });
     }
   };
@@ -56,10 +67,39 @@ const SignInScreen = ({navigation}) => {
       secureTextEntry: !data.secureTextEntry,
     });
   };
+  //form validation
+  const handelValidUser = (val) => {
+    if (val.trim().length >= 4) {
+      setData({
+        ...data,
+        isValidUser: true,
+      });
+    } else {
+      setData({
+        ...data,
+        isValidUser: false,
+      });
+    }
+  };
   //sign handler function
   const loginHandel = (userName, password) => {
-    // console.log('user::' + userName + ' iuui:' + password);
-    signIn(userName, password);
+    const foundUser = User.filter((item) => {
+      console.log(item);
+      return userName == item.email && password == item.password;
+    });
+    if (data.email.length == 0 || data.password.length == 0) {
+      Alert.alert('Wroung Input!', 'User or Password Cannot be null', [
+        {text: 'oky'},
+      ]);
+      return;
+    }
+    if (foundUser.length == 0) {
+      Alert.alert('Invalid User!', 'User or Password is Incorrect', [
+        {text: 'oky'},
+      ]);
+      return;
+    }
+    signIn(foundUser);
   };
 
   return (
@@ -77,6 +117,7 @@ const SignInScreen = ({navigation}) => {
             style={styles.textInput}
             autoCapitalize="none"
             onChangeText={(val) => textInputChange(val)}
+            onEndEditing={(e) => handelValidUser(e.nativeEvent.text)}
           />
           {data.check_text_input_change ? (
             <Animatable.View animation="bounceIn">
@@ -113,7 +154,7 @@ const SignInScreen = ({navigation}) => {
         {data.isValidPassword ? null : (
           <Animatable.View animation="fadeInLeft" duration={500}>
             <Text style={styles.errorMsg}>
-              Password Must be 4 Character long
+              Password Must be 8 or more Character long
             </Text>
           </Animatable.View>
         )}

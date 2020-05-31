@@ -68,19 +68,14 @@ const App = () => {
 
   //to speed up execution use  react hooks
   const authContext = React.useMemo(() => ({
-    signIn: async (userName, password) => {
-      let userToken;
-      userToken = null;
-      // console.log('before');
-      // console.log('user:' + userName + ' pass:' + password);
-      if (userName == 'sandy' && password == 'sandy') {
-        // console.log('ihgjhjh');
-        userToken = 'hgfhfhfhg';
-        try {
-          await AsyncStorage.setItem('userToken', userToken);
-        } catch (e) {
-          console.log(e);
-        }
+    signIn: async (foundUser) => {
+      let userToken = String(foundUser[0].userToken);
+      let userName = foundUser[0].userName;
+
+      try {
+        await AsyncStorage.setItem('userToken', userToken);
+      } catch (e) {
+        console.log(e);
       }
 
       dispatch({type: 'LOGIN', id: userName, token: userToken});
